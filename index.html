@@ -3,35 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Chat</title>
+    <title>Chat em Grupo com Amigos</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <!-- Tela de Login -->
     <div id="login-container" class="container">
-        <h2>💬 Bem-vindo ao Chat!</h2>
+        <h2>💬 Chat com Amigos!</h2>
         <div class="form-group">
-            <input type="text" id="username" placeholder="Escolha um usuário" class="input-field">
+            <input type="text" id="username" placeholder="Seu nome no chat" class="input-field">
         </div>
-        <div class="form-group">
-            <input type="password" id="password" placeholder="Crie uma senha" class="input-field">
-        </div>
-        <button onclick="fazerLogin()" class="btn">Entrar no Chat</button>
+        <button onclick="entrarNoChat()" class="btn">Entrar no Chat</button>
         <p id="mensagem" class="mensagem"></p>
     </div>
 
-    <!-- Tela do Chat (inicialmente escondida) -->
     <div id="chat-container" class="container" style="display: none;">
-        <h2>💬 Chat Online</h2>
+        <h2>💬 Chat em Grupo</h2>
+        <div class="user-info">
+            Online como: <span id="usuario-logado"></span>
+            | <span id="contador-online">1</span> pessoas online
+        </div>
+        
         <div id="mensagens" class="mensagens-container"></div>
+        
         <div class="input-group">
             <input type="text" id="mensagem-input" placeholder="Digite sua mensagem..." class="input-field">
             <button onclick="enviarMensagem()" class="btn">Enviar</button>
         </div>
-        <button onclick="sair()" class="btn-sair">Sair</button>
+        
+        <button onclick="sair()" class="btn-sair">Sair do Chat</button>
     </div>
 
-    <script src="login.js"></script>
-    <script src="script.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="chat.js"></script>
 </body>
 </html>
