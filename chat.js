@@ -1,16 +1,12 @@
-// Sistema de Chat em Tempo Real com Firebase
+// Sistema de Chat em Tempo Real com Firebase - VERSÃO SIMPLIFICADA
 let usuarioAtual = '';
 
 function entrarNoChat() {
     const username = document.getElementById('username').value.trim();
+    console.log('Tentando entrar com usuário:', username); // Debug
     
     if (!username) {
-        document.getElementById('mensagem').textContent = "⚠️ Digite seu nome para entrar!";
-        return;
-    }
-
-    if (username.length < 2) {
-        document.getElementById('mensagem').textContent = "⚠️ Nome muito curto!";
+        alert("⚠️ Digite seu nome para entrar no chat!");
         return;
     }
 
@@ -21,10 +17,10 @@ function entrarNoChat() {
     document.getElementById('chat-container').style.display = 'block';
     document.getElementById('usuario-logado').textContent = username;
     
+    console.log('Usuário logado:', usuarioAtual); // Debug
+    
     // Carregar mensagens
     carregarMensagens();
-    
-    document.getElementById('mensagem').textContent = "✅ Conectado ao chat!";
 }
 
 function enviarMensagem() {
@@ -41,26 +37,31 @@ function enviarMensagem() {
         return;
     }
 
-    // Salvar mensagem no Firebase (todos veem)
+    console.log('Enviando mensagem:', texto); // Debug
+
+    // Salvar mensagem no Firebase
     db.collection('mensagens').add({
         usuario: usuarioAtual,
         texto: texto,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        data: new Date().toLocaleDateString('pt-BR')
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
-        // Mensagem enviada com sucesso
+        console.log('Mensagem enviada com sucesso!');
         input.value = '';
     }).catch(error => {
         console.error("Erro ao enviar mensagem:", error);
-        alert("Erro ao enviar mensagem. Recarregue a página.");
+        alert("Erro ao enviar mensagem: " + error.message);
     });
 }
 
 function carregarMensagens() {
-    // Ouvir mensagens em tempo real - TODOS VEEM AS MESMAS MENSAGENS
+    console.log('Carregando mensagens...'); // Debug
+    
+    // Ouvir mensagens em tempo real
     db.collection('mensagens')
         .orderBy('timestamp', 'asc')
         .onSnapshot(snapshot => {
+            console.log('Mensagens recebidas:', snapshot.size);
+            
             const container = document.getElementById('mensagens');
             container.innerHTML = '';
             
@@ -95,12 +96,8 @@ function carregarMensagens() {
                 container.appendChild(div);
             });
             
-            // Rolagem automática para a última mensagem
+            // Rolagem automática
             container.scrollTop = container.scrollHeight;
-            
-            // Atualizar contador de mensagens
-            document.getElementById('contador-online').textContent = 
-                Math.max(1, Math.floor(snapshot.size / 2));
         }, error => {
             console.error("Erro ao carregar mensagens:", error);
         });
@@ -112,23 +109,12 @@ function sair() {
         document.getElementById('chat-container').style.display = 'none';
         document.getElementById('login-container').style.display = 'block';
         document.getElementById('username').value = '';
-        document.getElementById('mensagem').textContent = '';
     }
 }
 
-// Enviar mensagem com Enter
+// Enviar com Enter
 document.getElementById('mensagem-input').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         enviarMensagem();
     }
 });
-
-// Focar no input quando entrar
-function entrarNoChat() {
-    // ... código anterior ...
-    
-    // Focar no input de mensagem
-    setTimeout(() => {
-        document.getElementById('mensagem-input').focus();
-    }, 500);
-}
