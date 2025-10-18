@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat em Grupo com Amigos</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div id="login-container" class="container">
+        <h2>💬 Chat com Amigos!</h2>
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Seu nome no chat" class="input-field">
+        </div>
+        <button onclick="entrarNoChat()" class="btn">Entrar no Chat</button>
+        <p id="mensagem" class="mensagem"></p>
+    </div>
+
+    <div id="chat-container" class="container" style="display: none;">
+        <h2>💬 Chat em Grupo</h2>
+        <div class="user-info">
+            Online como: <span id="usuario-logado"></span>
+            | <span id="contador-online">1</span> pessoas online
+        </div>
+        
+        <div id="mensagens" class="mensagens-container"></div>
+        
+        <div class="input-group">
+            <input type="text" id="mensagem-input" placeholder="Digite sua mensagem..." class="input-field">
+            <button onclick="enviarMensagem()" class="btn">Enviar</button>
+        </div>
+        
+        <button onclick="sair()" class="btn-sair">Sair do Chat</button>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>
